@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import './assets/fonts/iconfont.css'
 import 'element-ui/lib/theme-chalk/index.css' //解决由于<style lang="less" scoped>中scoped引起的样式失效问题
 import ElementUi from 'element-ui'
 import './assets/css/global.css'
