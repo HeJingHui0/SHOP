@@ -18,6 +18,7 @@
           :collapse="isCollapse"
           :collapse-transition="false"
           router
+          :default-active="activePath"
         >
           <el-submenu :index="`${item.id}`" v-for="item in menuList" :key="item.id">
             <template slot="title">
@@ -28,6 +29,7 @@
               :index="'/' + subItem.path"
               v-for="subItem in item.children"
               :key="subItem.id"
+              @click="saveNavState('/' + subItem.path)"
             >
               <template slot="title">
                 <i class="el-icon-menu"></i>
@@ -57,7 +59,8 @@ export default {
         '102': 'iconfont icon-danju',
         '145': 'iconfont icon-baobiao'
       },
-      isCollapse: false
+      isCollapse: false,
+      activePath: ''
     }
   },
   methods: {
@@ -72,10 +75,15 @@ export default {
       const { data: res } = await this.$http.get('menus')
       if (res.meta.status != 200) return this.$message.error(res.meta.msg)
       this.menuList = res.data
+    },
+    saveNavState(activePath){
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     }
   },
   created() {
-    this.getMenuList()
+    this.getMenuList(),
+    this.activePath = window.sessionStorage.getItem('activePath')
   }
 }
 </script>
