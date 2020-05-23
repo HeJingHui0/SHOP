@@ -68,7 +68,12 @@
               size="mini"
               @click="addDialogVisible = true"
             >删除</el-button>
-            <el-button type="warning" icon="el-icon-setting" size="mini">分配权限</el-button>
+            <el-button
+              type="warning"
+              icon="el-icon-setting"
+              size="mini"
+              @click="showRightDialog(scope.row)"
+            >分配权限</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -80,6 +85,21 @@
         <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="分配权限" :visible.sync="rightDialogVisible" width="50%" @close="rightsListReset">
+      <el-tree
+        :data="rightList"
+        :props="rightProps"
+        show-checkbox
+        node-key="id"
+        default-expand-all
+        :default-checked-keys="defaultKeys"
+        ref="treeRef"
+      ></el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="rightDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="distributionRights">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -88,7 +108,15 @@ export default {
   data() {
     return {
       addDialogVisible: false,
-      rolesList: []
+      rolesList: [],
+      rightList: [],
+      rightDialogVisible: false,
+      rightProps: {
+        children: 'children',
+        label: 'authName'
+      },
+      defaultKeys: [],
+      roleId: ''
     }
   },
   methods: {
@@ -120,6 +148,43 @@ export default {
       }
       this.$message.success('删除权限成功')
       role.children = res.data
+    },
+    async showRightDialog(role) {
+      this.roleId = role.id
+      const { data: res } = await this.$http.get('rights/tree')
+      if (res.meta.status !== 200) {
+        return this.$message.error('获取权限数据失败')
+      }
+      this.rightList = res.data
+      this.getLeafKeys(role, this.defaultKeys)
+      this.rightDialogVisible = true
+    },
+    //递归获取三级权限的id
+    getLeafKeys(node, arr) {
+      if (!node.children) {
+        return arr.push(node.id)
+      }
+      node.children.forEach(item => this.getLeafKeys(item, arr))
+    },
+    rightsListReset() {
+      this.defaultKeys = []
+    },
+    async distributionRights() {
+      const keys = [
+        ...this.$refs.treeRef.getCheckedKeys(),
+        ...this.$refs.treeRef.getHalfCheckedKeys()
+      ]
+      const keyString = keys.join(',')
+      const { data: res } = await this.$http.post(
+        `roles/${this.roleId}/rights`,
+        { rids: keyString }
+      )
+      if (res.meta.status !== 200) {
+        return this.$message.error('权限分配失败')
+      }
+      this.$message.success('权限分配成功')
+      this.getRolesList()
+      this.rightDialogVisible = false
     }
   },
   created() {
