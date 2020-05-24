@@ -8,7 +8,10 @@ import 'element-ui/lib/theme-chalk/index.css' //解决由于<style lang="less" s
 import ElementUi, { MessageBox } from 'element-ui'
 import axios from 'axios'
 import './assets/css/global.css'
+import TreeTable from 'vue-table-with-tree-grid'
+
 Vue.use(ElementUi)
+Vue.component('tree-table', TreeTable)
 
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$http = axios
