@@ -61,13 +61,13 @@
               icon="el-icon-edit"
               size="mini"
               @click="addDialogVisible = true"
-            >编辑</el-button>
+            ></el-button>
             <el-button
               type="danger"
               icon="el-icon-delete"
               size="mini"
               @click="addDialogVisible = true"
-            >删除</el-button>
+            ></el-button>
             <el-button
               type="warning"
               icon="el-icon-setting"
