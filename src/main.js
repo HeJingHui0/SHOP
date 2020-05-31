@@ -9,11 +9,15 @@ import ElementUi, { MessageBox } from 'element-ui'
 import axios from 'axios'
 import './assets/css/global.css'
 import TreeTable from 'vue-table-with-tree-grid'
-
+import VueQuillEditor from 'vue-quill-editor'  //导入vue富文本编辑器
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 Vue.use(ElementUi)
+Vue.use(VueQuillEditor)
 Vue.component('tree-table', TreeTable)
 Vue.filter('dateFormat', function(originDate) {
-  const date = new Date(originDate * 1050)
+  const date = new Date(originDate * 1000)
   const year = date.getFullYear()
   const month = (date.getMonth() + 1 + '').padStart(2, '0')
   const day = (date.getDate() + '').padStart(2, '0')
