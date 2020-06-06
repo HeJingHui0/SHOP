@@ -34,7 +34,7 @@
           <el-tag v-else-if="scope.row.cat_level === 1" type="success" size="mini">二级</el-tag>
           <el-tag v-else type="warning" size="mini">三级</el-tag>
         </template>
-        <template slot="option" slot-scope="scope">
+        <template slot="option">
           <el-button
             type="primary"
             icon="el-icon-edit"

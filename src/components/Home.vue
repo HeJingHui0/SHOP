@@ -5,6 +5,7 @@
         <img src="../assets/img/img.jpg" alt />
         <span>电商后台管理系统</span>
       </div>
+      <el-button class="homePage" type="info" @click="toHomePage">首页</el-button>
       <el-button type="info" @click="logout">退出</el-button>
     </el-header>
     <el-container>
@@ -76,14 +77,17 @@ export default {
       if (res.meta.status != 200) return this.$message.error(res.meta.msg)
       this.menuList = res.data
     },
-    saveNavState(activePath){
+    saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
+    },
+    toHomePage() {
+      this.$router.push('/welcome')
     }
   },
   created() {
     this.getMenuList(),
-    this.activePath = window.sessionStorage.getItem('activePath')
+      (this.activePath = window.sessionStorage.getItem('activePath'))
   }
 }
 </script>
@@ -93,6 +97,7 @@ export default {
   height: 100%;
 }
 .el-header {
+  position: relative;
   background-color: #373e4d;
   display: flex;
   justify-content: space-between;
@@ -132,5 +137,9 @@ export default {
   text-align: center;
   letter-spacing: 0.4em;
   cursor: pointer;
+}
+.homePage {
+  position: absolute;
+  right: 100px;
 }
 </style>

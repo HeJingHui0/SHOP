@@ -272,9 +272,9 @@ export default {
         this.getParamsData()
       })
     },
-    async showEditDialog(attr_id) {
+    async showEditDialog(attrId) {
       const { data: res } = await this.$http.get(
-        `categories/${this.paramsId}/attributes/${attr_id}`,
+        `categories/${this.paramsId}/attributes/${attrId}`,
         {
           params: { attr_sel: this.activeName }
         }
@@ -308,7 +308,7 @@ export default {
         this.editDialogVisible = false
       })
     },
-    async deleteParams(attr_id) {
+    async deleteParams(attrId) {
       const confirmResult = await this.$confirm(
         '此操作将永久删除该商品参数, 是否继续?',
         '提示',
@@ -322,7 +322,7 @@ export default {
         return this.$message.info('已取消删除该商品参数')
       }
       const { data: res } = await this.$http.delete(
-        `categories/${this.paramsId}/attributes/${attr_id}`
+        `categories/${this.paramsId}/attributes/${attrId}`
       )
       if (res.meta.status !== 200) {
         return this.$message.error('删除商品参数失败')

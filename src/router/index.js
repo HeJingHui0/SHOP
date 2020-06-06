@@ -1,39 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../components/Login.vue'
-import Home from '../components/Home.vue'
-import Welcome from '../components/Welcome.vue'
-import Users from '../components/user/Uesrs.vue'
-import Rights from '../components/power/Rights.vue'
-import Roles from '../components/power/Roles.vue'
-import Cate from '../components/goods/Cate.vue'
-import Params from '../components/goods/Params.vue'
-import Goods from '../components/goods/Goods.vue'
-import AddGoods from '../components/goods/AddGoods.vue'
-import Order from '../components/order/Order.vue'
-import Report from '../components/report/Report.vue'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     {path: '/', redirect: '/login'},
-    {path: '/login', component: Login},
+    {path: '/login', component: () => import('../components/Login.vue')},
     {
       path: '/home',
-      component: Home,
+      component: () => import('../components/Home.vue'),
       redirect: '/welcome',
       children:[
-        {path: '/welcome', component: Welcome},
-        {path: '/users', component: Users},
-        {path: '/rights', component: Rights},
-        {path: '/roles', component: Roles},
-        {path: '/categories', component: Cate},
-        {path: '/params', component: Params},
-        {path: '/goods', component: Goods},
-        {path: '/goods/add', component: AddGoods},
-        {path: '/orders', component: Order},
-        {path: '/reports', component: Report}
+        {path: '/welcome', component: () => import('../components/Welcome.vue')},
+        {path: '/users', component: () => import('../components/user/Uesrs.vue')},
+        {path: '/rights', component: () => import('../components/power/Rights.vue')},
+        {path: '/roles', component: () => import('../components/power/Roles.vue')},
+        {path: '/categories', component: () => import('../components/goods/Cate.vue')},
+        {path: '/params', component: () => import('../components/goods/Params.vue')},
+        {path: '/goods', component: () => import('../components/goods/Goods.vue')},
+        {path: '/goods/add', component: () => import('../components/goods/AddGoods.vue')},
+        {path: '/orders', component: () => import('../components/order/Order.vue')},
+        {path: '/reports', component: () => import('../components/report/Report.vue')}
     ]},
   ]
 })
